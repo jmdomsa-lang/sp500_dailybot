@@ -15,7 +15,13 @@ WEIGHT_TECH = 0.2143
 def get_sp500_tickers():
     print("Obteniendo la lista de tickers del S&P 500...")
     url = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
-    tables = pd.read_html(url)
+    
+    # Disfrazamos la petición para evitar que Wikipedia nos bloquee por ser un bot
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+    import requests
+    response = requests.get(url, headers=headers)
+    tables = pd.read_html(response.text)
+    
     df = tables[0]
     tickers = df['Symbol'].tolist()
     # Limpiar tickers para yfinance (ej. BRK.B -> BRK-B)
