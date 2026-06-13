@@ -26,7 +26,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Ejecutar el Bot
-        run: python sp500_bot.py
+        run: |
+          cd sp500_bot && python sp500_bot.py
 
       - name: Guardar y subir el reporte al repositorio
         run: |
